@@ -6,7 +6,7 @@ const api = apiAdapter(URL_COURSE_SERVICE);
 module.exports = async (request, response) => {
     try {
         const id = request.params.id
-        const mentor = await api.post(`/api/mentors/${id}`, request.body);
+        const mentor = await api.put(`/api/mentors/${id}`, request.body);
         return response.json(mentor.data);
         
     } catch (error) {
