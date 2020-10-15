@@ -1,14 +1,13 @@
 const apiAdapter = require('../../apiAdapter');
-const {
-    URL_COURSE_SERVICE
-} = process.env;
+const {URL_COURSE_SERVICE} = process.env;
 
 const api = apiAdapter(URL_COURSE_SERVICE);
 
 module.exports = async (request, response) => {
     try {
-        const chapter = await api.get('/api/chapters')
-        return response.json(chapter.data);
+        const id = request.params.id
+        const lesson = await api.delete(`/api/lessons/${id}`);
+        return response.json(lesson.data);
         
     } catch (error) {
 
@@ -18,7 +17,7 @@ module.exports = async (request, response) => {
                 message: 'service unavailable'
             })
         }
-        const {status, data} = error.response;
+        const {status, data} = error.response; 
         return response.status(status).json(data);
     }
 }

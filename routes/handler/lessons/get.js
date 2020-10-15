@@ -1,14 +1,13 @@
 const apiAdapter = require('../../apiAdapter');
-const {
-    URL_COURSE_SERVICE
-} = process.env;
+const {URL_COURSE_SERVICE} = process.env;
 
 const api = apiAdapter(URL_COURSE_SERVICE);
 
 module.exports = async (request, response) => {
     try {
-        const chapter = await api.get('/api/chapters')
-        return response.json(chapter.data);
+        const id = request.params.id
+        const lesson = await api.get(`/api/lessons/${id}`);
+        return response.json(lesson.data);
         
     } catch (error) {
 

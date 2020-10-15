@@ -7,8 +7,12 @@ const api = apiAdapter(URL_COURSE_SERVICE);
 
 module.exports = async (request, response) => {
     try {
-        const chapter = await api.get('/api/chapters')
-        return response.json(chapter.data);
+        const lessons = await api.get('/api/lessons', {
+            params: {
+                ...request.query
+            }
+        })
+        return response.json(lessons.data);
         
     } catch (error) {
 
