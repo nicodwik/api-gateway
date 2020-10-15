@@ -12,6 +12,7 @@ const paymentsRouter = require('./routes/payments');
 const ordersRouter = require('./routes/orders');
 const refreshTokensRouter = require('./routes/refreshToken')
 const mentorsRouter = require('./routes/mentors')
+const chaptersRouter = require('./routes/chapters')
 
 const verifyToken = require('./middlewares/verifyToken')
 
@@ -31,5 +32,6 @@ app.use('/courses', coursesRouter)
 app.use('/payments', paymentsRouter)
 app.use('/refresh-tokens', refreshTokensRouter)
 app.use('/mentors', verifyToken, mentorsRouter)
+app.use('/chapters', verifyToken, chaptersRouter)
 
 module.exports = app;
