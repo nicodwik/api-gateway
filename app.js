@@ -23,13 +23,13 @@ app.use(express.urlencoded({ extended: false, limit: '50mb' }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/media', mediaRouter);
-app.use('/orders', ordersRouter);
-app.use('/courses', coursesRouter);
-app.use('/payments', paymentsRouter);
+app.use('/', indexRouter)
+app.use('/users', usersRouter)
+app.use('/media', mediaRouter)
+app.use('/orders', ordersRouter)
+app.use('/courses', coursesRouter)
+app.use('/payments', paymentsRouter)
 app.use('/refresh-tokens', refreshTokensRouter)
-app.use('/mentors', mentorsRouter)
+app.use('/mentors', verifyToken, mentorsRouter)
 
 module.exports = app;
