@@ -8,9 +8,7 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const mediaRouter = require('./routes/media');
 const coursesRouter = require('./routes/courses');
-const paymentsRouter = require('./routes/payments');
 const ordersRouter = require('./routes/orders');
-const refreshTokensRouter = require('./routes/refreshToken')
 const mentorsRouter = require('./routes/mentors')
 const chaptersRouter = require('./routes/chapters')
 const lessonsRouter = require('./routes/lessons')
@@ -19,6 +17,9 @@ const myCoursesRouter = require('./routes/myCourses')
 const reviewsRouter = require('./routes/reviews')
 const webhookRouter = require('./routes/webhook')
 
+// middleware
+const refreshTokensRouter = require('./routes/refreshToken')
+const grant = require('./middlewares/permission')
 const verifyToken = require('./middlewares/verifyToken')
 
 var app = express();
@@ -31,17 +32,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter)
 app.use('/users', usersRouter)
-app.use('/media', mediaRouter)
-app.use('/orders', ordersRouter)
+app.use('/media', grant('admin', 'student'), mediaRouter)
+app.use('/orders', grant('admin', 'student'), ordersRouter)
 app.use('/courses', coursesRouter)
-app.use('/payments', paymentsRouter)
 app.use('/refresh-tokens', refreshTokensRouter)
-app.use('/mentors', verifyToken, mentorsRouter)
-app.use('/chapters', verifyToken, chaptersRouter)
-app.use('/lessons', verifyToken, lessonsRouter)
-app.use('/image-courses', verifyToken, imageCoursesRouter)
+app.use('/mentors', grant('admin', 'student'), verifyToken, mentorsRouter)
+app.use('/chapters', grant('admin'), verifyToken, chaptersRouter)
+app.use('/lessons', grant('admin'), verifyToken, lessonsRouter)
+app.use('/image-courses', grant('admin'), verifyToken, imageCoursesRouter)
 app.use('/my-courses', verifyToken, myCoursesRouter)
-app.use('/reviews', verifyToken, reviewsRouter)
+app.use('/reviews', grant('admin', 'student'), verifyToken, reviewsRouter)
 app.use('/webhook', webhookRouter)
 
 module.exports = app;
